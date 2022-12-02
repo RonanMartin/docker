@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  frontend:
+    image: ronanmartin/validacpf
+    ports:
+      - "80:80"
+
+    restart: always     
+
+    networks:
+      - minha-rede
+
+  backend:
+    image: ronanmartin/validaback
+      
+    ports:
+      - "8080:8080"
+
+    restart: always     
+
+    networks:
+      - minha-rede
+
+  
+networks:
+   minha-rede:
+     driver: bridge
