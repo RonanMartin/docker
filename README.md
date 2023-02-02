@@ -15,14 +15,11 @@ To master Docker, it's good to practice the commands needed to make a dockerfile
 
 ## **Where to start?**
 
-.
-.
-
 The Dockerfiles are the first step. To start you can see the Valida Dockerfile.
 
 ### Valida > Dockerfile
 
-.
+...
 
 **FROM debian** - To set our Linux Image
 
@@ -64,14 +61,11 @@ After the Dockerfile is ready, we can build the image:
 
 ## **Generating a Multistage Image**
 
-.
-.
-
 Let's check out an example where we'll make an application in GO, and we'll place its binary next to the Linux Alpine image. From the Dockerfile we will use the GO image to generate the application binary:
 
 ### Go > Dockerfile
 
-.
+...
 
 **FROM golang as exec** Golang is the name of the image, and since we are going to use the result of the binary that will be inside the FROM of this image, we will call it executable to be able to import it into the next stage.
 
