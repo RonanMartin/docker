@@ -2,16 +2,13 @@
 
 ### In this project, Docker Compose was used to run an application (HTML, CSS and JS) in an Apache container, and another multistage image (A binary of a GO application, combined with an Alpine Linux container). Also available are the Dockerfiles used in the two images, and the required application files. For Docker Compose the images were made available via Docker Hub.
 
-.
-.
-.
+...
 
 ## **Why was it made?**
 
-.
-.
-
 To master Docker, it's good to practice the commands needed to make a dockerfile and a docker compose. The multistage image is important for knowing how to include a binary in a docker image. So it's a practical example that can be changed by changing applications or linux containers. It is very good for study purposes.
+
+...
 
 ## **Where to start?**
 
@@ -46,8 +43,7 @@ The Dockerfiles are the first step. To start you can see the Valida Dockerfile.
 **ENTRYPOINT ["/usr/sbin/apachectl"]** To specify the run file.
 
 **CMD ["-D", "FOREGROUND"]** To specify that the run needs to be in the foreground.
-.
-.
+...
 
 After the Dockerfile is ready, we can build the image:
 
@@ -55,9 +51,7 @@ After the Dockerfile is ready, we can build the image:
 
 **docker run -dti -p 80:80 --name my-apache imagename:1.0** Where we set port 80, as we had put in the image. So we put this apache container to run with the site files inside it.
 
-.
-.
-.
+...
 
 ## **Generating a Multistage Image**
 
@@ -90,8 +84,7 @@ Let's check out an example where we'll make an application in GO, and we'll plac
 **EXPOSE 8080**
 
 **ENTRYPOINT ./app.go**
-.
-.
+..
 
 We close the dockerfile.
 
