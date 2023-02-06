@@ -1,5 +1,3 @@
-# -_- coding: utf-8 -_-
-
 # Docker
 
 ### In this project, Docker Compose was used to run an application (HTML, CSS and JS) in an Apache container, and another multistage image (A binary of a GO application, combined with an Alpine Linux container). Also available are the Dockerfiles used in the two images, and the required application files. For Docker Compose the images were made available through Docker Hub.
