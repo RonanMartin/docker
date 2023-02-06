@@ -103,11 +103,11 @@ To generate a YAML file, it is recommended to always use the same version number
 ```
 version: "3.7"
 
-services:..........FIRST SERVICE – IMPORTANT TO RESPECT THE WRITING SPACING FOR THE BORDER, TWO SPACES FOR THE FIRST SERVICE.
+services:..........FIRST SERVICE – Important to respect the writing spacing for the border, two spaces for the first service.
   frontend:
-    image: ronanmartin/validacpf..........IMAGE SPECIFICATION - INSIDE THE SERVICE GIVE TWO MORE SPACES.
+    image: ronanmartin/validacpf..........IMAGE SPECIFICATION - inside the service give two more spaces.
     ports:
-      - "80:80"..........NECESSARY TO PUT THE DASH BEFORE INDICATING THE PORT.
+      - "80:80"..........Necessary to put the dash before indicating the port.
 
     restart: always
 
@@ -115,18 +115,24 @@ services:..........FIRST SERVICE – IMPORTANT TO RESPECT THE WRITING SPACING FO
       - minha-rede
 
   backend:
-    image: ronanmartin/validaback
+    image: ronanmartin/validaback..........SECOND SERVE – In line with spacing from the first serve, just two spaces
 
     ports:
       - "8080:8080"
 
-    restart: always
+    restart: always..........To always restart automatically if it crashes
 
     networks:
-      - minha-rede
+      - minha-rede..........IMPORTANT TO SPECIFY THE SAME NETWORK AS THE PREVIOUS SERVICE
 
 
-networks:
+networks:..........CREATING THE NETWORK ON THE HOST – No spacing
    minha-rede:
      driver: bridge
 ```
+
+We finished the docker compose file.
+
+**docker-compose up -d** To upload containers, with -d to run in the background. If not in the background, then the terminal will be busy logging. And giving Ctrl+C to exit, it will stop all containers and remove them.
+
+**docker-compose down** To pull down containers. In this case it shuts down the containers, removes them, and shuts down the network.
