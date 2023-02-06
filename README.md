@@ -1,6 +1,7 @@
-# Docker Compose
+# -*- coding: utf-8 -*-
+# Docker
 
-### In this project, Docker Compose was used to run an application (HTML, CSS and JS) in an Apache container, and another multistage image (A binary of a GO application, combined with an Alpine Linux container). Also available are the Dockerfiles used in the two images, and the required application files. For Docker Compose the images were made available via Docker Hub.
+### In this project, Docker Compose was used to run an application (HTML, CSS and JS) in an Apache container, and another multistage image (A binary of a GO application, combined with an Alpine Linux container). Also available are the Dockerfiles used in the two images, and the required application files. For Docker Compose the images were made available through Docker Hub.
 
 ...
 
@@ -84,10 +85,54 @@ Let's check out an example where we'll make an application in GO, and we'll plac
 **EXPOSE 8080**
 
 **ENTRYPOINT ./app.go**
-..
+
+...
 
 We close the dockerfile.
 
 **docker image build -t app-go:1.0 .** To generate the image.
 
 **docker run -ti --name myappOk app-go:1.0** To run the image.
+
+...
+
+## **Docker Compose**
+
+Docker Composse is a tool designed to help define and share applications with multiple containers, making it possible to unite two or more containers. With compose you create containers declaratively with a YAML file, define services, volumes, network and ports, and with it you can run all containers at once, or stop them.
+
+To generate a YAML file, it is recommended to always use the same version number that is in Docker.
+
+**apt-get install docker-compose** To install the application.
+
+### YAML file example
+
+...
+
+**version: "3.7"**
+
+**services:** FIRST SERVICE – Important to respect the writing spacing for the border, two spaces for the first service
+  **frontend:**
+    **image: ronanmartin/validacpf** IMAGE SPECIFICATION - inside the service give two more spaces
+    **ports:**
+      **- "80:80"** Necessary to put the dash before indicating the port
+      
+    **restart: always**     
+
+    **networks:** Specification of the Network that will be used
+      **- minha-rede**
+
+  **backend:**
+    **image: ronanmartin/validaback**
+      
+    **ports:**
+      **- "8080:8080"**
+
+    **restart: always**     
+
+    **networks:**
+      **- minha-rede**
+
+  
+**networks:**
+   **minha-rede:**
+     **driver: bridge**
