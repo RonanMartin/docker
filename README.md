@@ -59,32 +59,30 @@ Let's check out an example where we'll make an application in GO, and we'll plac
 ### Go > Dockerfile
 
 ```
-FROM golang as exec     >>> Golang is the name of the image, and since we are going to use the result of the binary that will be inside the FROM of this image, we will call it executable to be able to import it into the next stage.
+FROM golang as exec // Golang is the name of the image, and since we are going to use the result of the binary that will be inside the FROM of this image, we will call it executable to be able to import it into the next stage.
 
-**COPY main.go /go/src/app/** To copy the app file to the indicated address.
+COPY main.go /go/src/app/ // To copy the app file to the indicated address.
 
-**ENV GO111MODULE=auto** Informs that we will be able to generate the executable from any place inside the container. Without this command, an error will appear saying that go.mod was not found.
+ENV GO111MODULE=auto // Informs that we will be able to generate the executable from any place inside the container. Without this command, an error will appear saying that go.mod was not found.
 
-**WORKDIR /go/src/app/** To inform the directory we will work with.
+WORKDIR /go/src/app/ // To inform the directory we will work with.
 
-**RUN go build -o app.go .** Run will check app.go to generate the executable file, this change in the image needs to come from Run, because it executes an instruction and sends the return of the instruction to the first layer of the Dockerfile, which is where we can make changes (such as generating the binary).
+RUN go build -o app.go . // Run will check app.go to generate the executable file, this change in the image needs to come from Run, because it executes an instruction and sends the return of the instruction to the first layer of the Dockerfile, which is where we can make changes (such as generating the binary).
 
---- The top part was the first stage, now comes the second stage inside the Dockerfile ---
+ // The top part was the first stage, now comes the second stage inside the Dockerfile
 
-**FROM alpine**
+FROM alpine
 
-**WORKDIR /appexec** We create a working directory, it could be another name.
+WORKDIR /appexec // We create a working directory, it could be another name.
 
-**COPY --from=exec /go/src/app /appexec** Here we copy the exec from the first directory /go/src/app to the second stage directory /appexec.
+COPY --from=exec /go/src/app /appexec // Here we copy the exec from the first directory /go/src/app to the second stage directory /appexec.
 
-**RUN chmod -R 755 /appexec** As we are going to make changes to the file, in this case changes to the directory permissions, so we need to use Run again.
+RUN chmod -R 755 /appexec // As we are going to make changes to the file, in this case changes to the directory permissions, so we need to use Run again.
 
-**EXPOSE 8080**
+EXPOSE 8080
 
-**ENTRYPOINT ./app.go**
+ENTRYPOINT ./app.go
 ```
-
-...
 
 We close the dockerfile.
 
