@@ -18,34 +18,28 @@ The Dockerfiles are the first step. To start you can see the Valida Dockerfile.
 
 ### Valida > Dockerfile
 
-...
-
 ```
-**FROM debian** - To set our Linux Image
+FROM debian     >>> To set our Linux Image
 
-**RUN apt-get update && apt-get install -y apache2 && apt-get clean** - Docker recommends using apt-get over apt as it says it brings more information. For good practices it is recommended to put everything in just one RUN. The clean command is used to delete the remains of files that were used in the installation.
+RUN apt-get update && apt-get install -y apache2 && apt-get clean      >>> Docker recommends using apt-get over apt as it says it brings more information. For good practices it is recommended to put everything in just one RUN. The clean command is used to delete the remains of files that were used in the installation.
 
-**ENV APACHE_LOCK_DIR="var/lock"** - To avoid having more than one execution of apache in the same container.
+ENV APACHE_LOCK_DIR="var/lock"      >>> To avoid having more than one execution of apache in the same container.
+ENV APACHE_PID_FILE="var/run/apache2.pid"      >>> Need to specify where this PID type file will be.
+ENV APACHE_RUN_USER="www-data"      >>> www-data will be the user that will run apache, we can put any other user. It is not advisable to use the root.
+ENV APACHE_RUN_GROUP="www-data"
+ENV APACHE_LOG_DIR="/var/log/apache2"      >>> Specify log directory.
 
-**ENV APACHE_PID_FILE="var/run/apache2.pid"** - Need to specify where this PID type file will be.
+ADD valida.tar /var/www/html      >>> Default folder, where the file will be copied and already unzipped.
 
-**ENV APACHE_RUN_USER="www-data"** - www-data will be the user that will run apache, we can put any other user. It is not advisable to use the root.
+LABEL description = "Apache webserver 1.0"      >>> To specify the description.
 
-**ENV APACHE_RUN_GROUP="www-data"**
+VOLUME /var/www/html      >>> To specify where data will be saved.
 
-**ENV APACHE_LOG_DIR="/var/log/apache2"** - Specify log directory.
+EXPOSE 80      >>> To expose port 80.
 
-**ADD valida.tar /var/www/html** - Default folder, where the file will be copied and already unzipped.
+ENTRYPOINT ["/usr/sbin/apachectl"]      >>> To specify the run file.
 
-**LABEL description = "Apache webserver 1.0"** - To specify the description.
-
-**VOLUME /var/www/html** To specify where data will be saved.
-
-**EXPOSE 80** To expose port 80.
-
-**ENTRYPOINT ["/usr/sbin/apachectl"]** To specify the run file.
-
-**CMD ["-D", "FOREGROUND"]** To specify that the run needs to be in the foreground.
+CMD ["-D", "FOREGROUND"]     >>> To specify that the run needs to be in the foreground.
 ```
 
 ...
@@ -65,7 +59,7 @@ Let's check out an example where we'll make an application in GO, and we'll plac
 ### Go > Dockerfile
 
 ```
-**FROM golang as exec** Golang is the name of the image, and since we are going to use the result of the binary that will be inside the FROM of this image, we will call it executable to be able to import it into the next stage.
+FROM golang as exec     >>> Golang is the name of the image, and since we are going to use the result of the binary that will be inside the FROM of this image, we will call it executable to be able to import it into the next stage.
 
 **COPY main.go /go/src/app/** To copy the app file to the indicated address.
 
@@ -110,35 +104,33 @@ To generate a YAML file, it is recommended to always use the same version number
 
 ### YAML file example
 
-...
-
 ```
-**version: "3.7"**
+version: "3.7"
 
-**services:** FIRST SERVICE – Important to respect the writing spacing for the border, two spaces for the first service.
-  **frontend:**
-    **image: ronanmartin/validacpf** IMAGE SPECIFICATION - inside the service give two more spaces.
-    **ports:**
-      **- "80:80"** Necessary to put the dash before indicating the port.
+services:     >>> FIRST SERVICE – IMPORTANT TO RESPECT THE WRITING SPACING FOR THE BORDER, TWO SPACES FOR THE FIRST SERVICE.
+  frontend:
+    image: ronanmartin/validacpf     >>> IMAGE SPECIFICATION - INSIDE THE SERVICE GIVE TWO MORE SPACES.
+    ports:
+      - "80:80"     >>> NECESSARY TO PUT THE DASH BEFORE INDICATING THE PORT.
 
-    **restart: always**
+    restart: always
 
-    **networks:** Specification of the Network that will be used
-      **- minha-rede**
+    networks:     >>> SPECIFICATION OF THE NETWORK THAT WILL BE USED
+      - minha-rede
 
-  **backend:**
-    **image: ronanmartin/validaback**
+  backend:
+    image: ronanmartin/validaback
 
-    **ports:**
-      **- "8080:8080"**
+    ports:
+      - "8080:8080"
 
-    **restart: always**
+    restart: always
 
-    **networks:**
-      **- minha-rede**
+    networks:
+      - minha-rede
 
 
-**networks:**
-   **minha-rede:**
-     **driver: bridge**
+networks:
+   minha-rede:
+     driver: bridge
 ```
