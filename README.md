@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# -_- coding: utf-8 -_-
+
 # Docker
 
 ### In this project, Docker Compose was used to run an application (HTML, CSS and JS) in an Apache container, and another multistage image (A binary of a GO application, combined with an Alpine Linux container). Also available are the Dockerfiles used in the two images, and the required application files. For Docker Compose the images were made available through Docker Hub.
@@ -19,6 +20,7 @@ The Dockerfiles are the first step. To start you can see the Valida Dockerfile.
 
 ...
 
+```
 **FROM debian** - To set our Linux Image
 
 **RUN apt-get update && apt-get install -y apache2 && apt-get clean** - Docker recommends using apt-get over apt as it says it brings more information. For good practices it is recommended to put everything in just one RUN. The clean command is used to delete the remains of files that were used in the installation.
@@ -44,6 +46,8 @@ The Dockerfiles are the first step. To start you can see the Valida Dockerfile.
 **ENTRYPOINT ["/usr/sbin/apachectl"]** To specify the run file.
 
 **CMD ["-D", "FOREGROUND"]** To specify that the run needs to be in the foreground.
+```
+
 ...
 
 After the Dockerfile is ready, we can build the image:
@@ -60,8 +64,7 @@ Let's check out an example where we'll make an application in GO, and we'll plac
 
 ### Go > Dockerfile
 
-...
-
+```
 **FROM golang as exec** Golang is the name of the image, and since we are going to use the result of the binary that will be inside the FROM of this image, we will call it executable to be able to import it into the next stage.
 
 **COPY main.go /go/src/app/** To copy the app file to the indicated address.
@@ -85,6 +88,7 @@ Let's check out an example where we'll make an application in GO, and we'll plac
 **EXPOSE 8080**
 
 **ENTRYPOINT ./app.go**
+```
 
 ...
 
@@ -108,31 +112,33 @@ To generate a YAML file, it is recommended to always use the same version number
 
 ...
 
+```
 **version: "3.7"**
 
-**services:** FIRST SERVICE – Important to respect the writing spacing for the border, two spaces for the first service
+**services:** FIRST SERVICE – Important to respect the writing spacing for the border, two spaces for the first service.
   **frontend:**
-    **image: ronanmartin/validacpf** IMAGE SPECIFICATION - inside the service give two more spaces
+    **image: ronanmartin/validacpf** IMAGE SPECIFICATION - inside the service give two more spaces.
     **ports:**
-      **- "80:80"** Necessary to put the dash before indicating the port
-      
-    **restart: always**     
+      **- "80:80"** Necessary to put the dash before indicating the port.
+
+    **restart: always**
 
     **networks:** Specification of the Network that will be used
       **- minha-rede**
 
   **backend:**
     **image: ronanmartin/validaback**
-      
+
     **ports:**
       **- "8080:8080"**
 
-    **restart: always**     
+    **restart: always**
 
     **networks:**
       **- minha-rede**
 
-  
+
 **networks:**
    **minha-rede:**
      **driver: bridge**
+```
