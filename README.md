@@ -105,7 +105,7 @@ services:..........FIRST SERVICE – Important to respect the writing spacing fo
       - minha-rede
 
   backend:
-    image: ronanmartin/validaback..........SECOND SERVE – In line with spacing from the first serve, just two spaces
+    image: ronanmartin/validaback..........SECOND SERVICE – In line with spacing from the first serve, just two spaces
 
     ports:
       - "8080:8080"
