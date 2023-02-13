@@ -17,9 +17,13 @@ The Dockerfiles are the first step. To start you can see the Valida Dockerfile.
 `RUN apt-get update && apt-get install -y apache2 && apt-get clean` Docker recommends using apt-get over apt as it says it brings more information. For good practices it is recommended to put everything in just one RUN. The clean command is used to delete the remains of files that were used in the installation.
 
 `ENV APACHE_LOCK_DIR="var/lock"` To avoid having more than one execution of apache in the same container.
+
 `ENV APACHE_PID_FILE="var/run/apache2.pid"` Need to specify where this PID type file will be.
+
 `ENV APACHE_RUN_USER="www-data"` www-data will be the user that will run apache, we can put any other user. It is not advisable to use the root.
+
 `ENV APACHE_RUN_GROUP="www-data"`
+
 `ENV APACHE_LOG_DIR="/var/log/apache2"` Specify log directory.
 
 `ADD valida.tar /var/www/html` Default folder, where the file will be copied and already unzipped.
@@ -89,28 +93,37 @@ To generate a YAML file, it is recommended to always use the same version number
 `version: "3.7"`
 
 `services:` FIRST SERVICE – Important to respect the writing spacing for the border, two spaces for the first service.
+
 `frontend:`
+
 `image: ronanmartin/validacpf` IMAGE SPECIFICATION - inside the service give two more spaces.
+
 `ports: - "80:80"` Necessary to put the dash before indicating the port.
 
 `    restart: always`
 
 `    networks:` SPECIFICATION OF THE NETWORK THAT WILL BE USED
+
 `      - minha-rede`
 
 `backend:`
+
 `image: ronanmartin/validaback` SECOND SERVICE – In line with spacing from the first serve, just two spaces
 
 `    ports:`
+
 `      - "8080:8080"`
 
 `    restart: always` To always restart automatically if it crashes
 
 `    networks:`
+
 `      - minha-rede` IMPORTANT TO SPECIFY THE SAME NETWORK AS THE PREVIOUS SERVICE
 
 `networks:` CREATING THE NETWORK ON THE HOST – No spacing
+
 `minha-rede:`
+
 `driver: bridge`
 
 We finished the docker compose file.
